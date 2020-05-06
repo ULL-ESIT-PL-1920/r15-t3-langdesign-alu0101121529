@@ -26,13 +26,17 @@ Modifica la gramática corrigiendo los errores que veas, de manera que genere fr
               
 <declaration> ::= 'var' WORD ('=' <expr>)?
 
-<expr> ::= <term> (('==', '!=', '>', '>=', '<', '<=', '=') <term>)*
+<leftValue> ::= WORD (. WORD | '[' <expr> ']')*
+
+<expr> ::= (<leftValue> '=')* <rightValue>
+
+<rightValue> ::= <term> (('==', '!=', '>', '>=', '<', '<=', '=') <term>)*
 
 <term> ::= <sum> (('+', '-') <sum>)*
 
-<sum> ::= <fact> (('*', '/') <fact>)*
+<sum> ::= <value> (('*', '/') <value>)*
 
-<fact> ::= <value> | <word> <apply> | <parenthesis> | <array> // Added by: Casiano
+<value> ::= (VALUE | WORD | <array> | <parenthesis>) (. WORD | '[' <expr> ']' | <apply>)*
 
 <apply> ::= '(' <expr> (',' <expr>)* ')'<apply> | '.'<word><apply> | empty
 
